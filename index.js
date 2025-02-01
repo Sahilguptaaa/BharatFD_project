@@ -1,14 +1,17 @@
 import "dotenv/config";
 import express from "express";
-import connectDB from "./db/index.js";
-connectDB();
+import connectDB from "./db/conn.js";
 
+connectDB();
 const app = express();
 app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+import api from "./routes/api.routes.js";
+app.use("/api", api);
 
 app.get("/", (req, res) => {
-  res.json({ "server":"server is on" });
+  res.json({ hello: "sam" });
 });
 
 const port = process.env.PORT || 3000;
